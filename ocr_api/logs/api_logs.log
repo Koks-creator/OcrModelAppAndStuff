@@ -1,0 +1,9 @@
+2025-03-18 23:54:31,530 - middleware_logger - INFO - Line: 29 - Starting API
+2025-03-18 23:54:31,531 - middleware_logger - INFO - Line: 31 - Starting predictor
+2025-03-18 23:55:02,904 - middleware_logger - INFO - Line: 29 - Starting API
+2025-03-18 23:55:02,904 - middleware_logger - INFO - Line: 31 - Starting predictor
+2025-03-18 23:55:03,728 - middleware_logger - INFO - Line: 35 - Started
+2025-03-18 23:55:03,867 - middleware_logger - INFO - Line: 23 - Uploaded 2 files
+2025-03-18 23:55:03,867 - middleware_logger - INFO - Line: 31 - Preparing images
+2025-03-18 23:55:03,870 - middleware_logger - INFO - Line: 39 - Preparing predictions
+2025-03-18 23:55:04,669 - middleware_logger - INFO - Line: 44 - predictions=['Catherine', 'took']

@@ -1,0 +1,6 @@
+2025-03-18 23:55:20,325 - ocr_webapp.tests.test_webapp - INFO - Line: 38 - Starting tests
+2025-03-18 23:55:20,336 - ocr_webapp.tests.test_webapp - INFO - Line: 55 - test_root_endpoint passed
+2025-03-18 23:55:20,336 - ocr_webapp.tests.test_webapp - INFO - Line: 18 - test_index_route (file: test_webapp.py) executed in 0.0112 seconds
+2025-03-18 23:55:21,362 - ocr_webapp.tests.test_webapp - INFO - Line: 66 - test_upload passed
+2025-03-18 23:55:21,362 - ocr_webapp.tests.test_webapp - INFO - Line: 18 - test_upload (file: test_webapp.py) executed in 1.0248 seconds
+2025-03-18 23:55:21,363 - ocr_webapp.tests.test_webapp - INFO - Line: 40 - Finishing tests

@@ -1,0 +1,7 @@
+2025-03-18 23:55:19,418 - OcrWebApp - INFO - Line: 48 - Starting web app
+2025-03-18 23:55:19,418 - OcrWebApp - INFO - Line: 53 - Starting predictor
+2025-03-18 23:55:20,257 - OcrWebApp - INFO - Line: 57 - OCR predictor started successfully
+2025-03-18 23:55:20,366 - OcrWebApp - INFO - Line: 36 - Uploaded 1 files
+2025-03-18 23:55:21,280 - OcrWebApp - INFO - Line: 54 - predictions=['Dear']
+2025-03-18 23:55:21,282 - OcrWebApp - INFO - Line: 36 - Uploaded 1 files
+2025-03-18 23:55:21,359 - OcrWebApp - INFO - Line: 54 - predictions=['Catherine']

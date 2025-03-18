@@ -1,0 +1,162 @@
+{% extends 'layout.html' %}
+
+{% block content %}
+<div class="container text-center">
+  <h1 class="display-1 my-4" style="padding: 50px;">Simple OCR</h1>
+
+  <div class="jumbotron position-relative" style="background-color: #212529;">
+    <div class="row mb-4">
+      <div class="col text-start">
+        <button
+          type="button"
+          class="btn btn-secondary px-4"
+          data-bs-container="body"
+          data-bs-toggle="popover"
+          data-bs-placement="right"
+          data-bs-content="INFO: this OCR model was trained on quite short sequences,
+           mostly single words (since it was traied on IAM dataset), so don't expect too much, https://fki.tic.heia-fr.ch/databases/iam-handwriting-database"
+        >
+          Read it
+        </button>
+      </div>
+    </div>
+
+    <!-- Loading Spinner (hidden by default) -->
+    <div id="loadingSpinner" class="spinner-container" style="display: none;">
+      <div class="spinner-border text-light" role="status" style="width: 3rem; height: 3rem;">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-2 text-light">Processing images, please wait...</p>
+    </div>
+
+    <div class="row justify-content-center">
+      <div class="col-md-6 col-12">
+        <form id="uploadForm" method="post" enctype="multipart/form-data">
+          {{ form.hidden_tag() }}
+          <fieldset class="form-group">
+            <div class="uploadFileContainer mx-auto" style="width: 100%;">
+              {% if form.images.errors %}
+                {{ form.images(class='form-control is-invalid', multiple=True) }}
+                {% for error in form.images.errors %}
+                  <div class="text-danger">{{ error }}</div>
+                {% endfor %}
+              {% else %}
+                {{ form.images(class='form-control') }}
+              {% endif %}
+              <br>
+              {{ form.submit(class='submitButton') }}
+            </div>
+          </fieldset>
+        </form>
+      </div>
+    </div>
+    {% if image_datas %}
+      <div class="jumbotron mt-4" style="width: 90%; margin: 0 auto;">
+        <h2 class="display-3">Result:</h2>
+        <div class="text-end mb-3">
+          <button id="downloadCSV" class="btn btn-success">Download Results as CSV</button>
+        </div>
+        <div style="max-height: 600px; overflow-y: auto;">
+          <table class="table" style="width: 90%; margin: 0 auto;">
+            <thead>
+              <tr>
+                <th>Preview</th>
+                <th>Text</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for img, pred in image_datas %}
+              <tr>
+                <td  style="text-align: center; vertical-align: middle;">
+                  <img src="{{ img }}" alt="Uploaded Image" width="270" class="ResImg">
+                </td>
+                <td style="font-size: 60px; text-align: center; vertical-align: middle; color: white;">
+                  {{ pred }}
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          const downloadBtn = document.getElementById('downloadCSV');
+          downloadBtn.addEventListener('click', function() {
+            const results = {{ res_to_save|tojson }};
+            
+            let csvContent = "data:text/csv;charset=utf-8,";
+            
+            const headers = Object.keys(results);
+            csvContent += headers.join(",") + "\n";
+            
+            const maxRows = Math.max(...headers.map(header => results[header].length));
+            
+            for (let i = 0; i < maxRows; i++) {
+              const row = headers.map(header => {
+                if (i < results[header].length) {
+                  let cell = results[header][i];
+                  if (cell === null || cell === undefined) {
+                    return '';
+                  }
+                  cell = String(cell).replace(/"/g, '""');
+                  if (cell.includes(',') || cell.includes('"') || cell.includes('\n')) {
+                    cell = `"${cell}"`;
+                  }
+                  return cell;
+                }
+                return '';
+              });
+              csvContent += row.join(",") + "\n";
+            }
+            
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "ocr_results.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          });
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+          const form = document.getElementById('uploadForm');
+          const spinner = document.getElementById('loadingSpinner');
+
+          form.addEventListener('submit', function() {
+            spinner.style.display = 'flex';
+          });
+        });
+      </script>
+    {% else %}
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          const form = document.getElementById('uploadForm');
+          const spinner = document.getElementById('loadingSpinner');
+
+          form.addEventListener('submit', function() {
+            spinner.style.display = 'flex';
+          });
+        });
+      </script>
+    {% endif %}
+  </div>
+</div>
+
+<style>
+  .spinner-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+  }
+</style>
+{% endblock content %}
